@@ -1,5 +1,5 @@
 import { useEffect, useState, ChangeEvent } from 'react';
-import { Container, Form, Spinner, Alert, Row, Image } from 'react-bootstrap';
+import { Container, Form, Spinner, Alert, Row, Image, Col } from 'react-bootstrap';
 import styles from './Home.module.css';
 import { IQuestion } from '../../interfaces/questionInterface';
 import parseContext from '../../helpers/parseContext';
@@ -73,38 +73,42 @@ const Home = () => {
   return (
     <Container className={styles.container}>
       <Form>
-        <Form.Label htmlFor='year'>Selecione o ano:</Form.Label>
-        <Form.Select
-          id='year'
-          name='year'
-          aria-label='Selecione o ano'
-          className={styles.select}
-          onChange={handleSelectYear}
-          value={selectedYear}
-        >
-          <option value=''>Selecione o ano</option>
-          {Array.from({ length: 15 }, (_, i) => 2009 + i).map(year => (
-            <option key={year} value={year.toString()}>{year}</option>
-          ))}
-        </Form.Select>
-
-        {selectedYear && Number(selectedYear) >= 2017 && (
-          <Row>
-            <Form.Label htmlFor='language' className="mt-3">Selecione a língua estrangeira:</Form.Label>
+        <Row>
+          <Col sm={2}>
+            <Form.Label htmlFor='year'>Selecione o ano:</Form.Label>
             <Form.Select
-              id='language'
-              name='language'
-              aria-label='Selecione a língua estrangeira'
+              id='year'
+              name='year'
+              aria-label='Selecione o ano'
               className={styles.select}
-              onChange={handleSelectLanguage}
-              value={selectedLanguage || ''}
+              onChange={handleSelectYear}
+              value={selectedYear}
             >
-              <option value=''>Selecione a língua estrangeira</option>
-              <option value='ingles'>Inglês</option>
-              <option value='espanhol'>Espanhol</option>
+              <option value=''>Selecione o ano</option>
+              {Array.from({ length: 15 }, (_, i) => 2009 + i).map(year => (
+                <option key={year} value={year.toString()}>{year}</option>
+              ))}
             </Form.Select>
-          </Row>
-        )}
+          </Col>
+
+          {selectedYear && Number(selectedYear) >= 2017 && (
+            <Col sm={3}>
+              <Form.Label htmlFor='language'>Selecione a língua estrangeira:</Form.Label>
+              <Form.Select
+                id='language'
+                name='language'
+                aria-label='Selecione a língua estrangeira'
+                className={styles.select}
+                onChange={handleSelectLanguage}
+                value={selectedLanguage || ''}
+              >
+                <option value=''>Selecione a língua estrangeira</option>
+                <option value='ingles'>Inglês</option>
+                <option value='espanhol'>Espanhol</option>
+              </Form.Select>
+            </Col>
+          )}
+        </Row>
       </Form>
 
       {loading && (
@@ -153,7 +157,7 @@ const Home = () => {
                         </div>
                       );
                     }
-                    
+
                     if (alternative?.file) {
                       const src = alternative.file.replace('https://enem.dev', 'src/exams');
 
