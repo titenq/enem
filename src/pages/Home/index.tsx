@@ -1,0 +1,177 @@
+import { useEffect, useState, ChangeEvent } from 'react';
+import { Container, Form, Spinner, Alert, Row, Image } from 'react-bootstrap';
+import styles from './Home.module.css';
+import { IQuestion } from '../../interfaces/questionInterface';
+import parseContext from '../../helpers/parseContext';
+
+const Home = () => {
+  const [selectedYear, setSelectedYear] = useState<string>('');
+  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
+  const [exams, setExams] = useState<IQuestion[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!selectedYear) return;
+
+    const year = parseInt(selectedYear);
+
+    if (year >= 2017 && year <= 2023 && !selectedLanguage) {
+      setExams([]);
+      return;
+    }
+
+    const loadAllQuestions = async () => {
+      setLoading(true);
+      setExams([]);
+      setError(null);
+
+      try {
+        const basePath = `../../exams/${selectedYear}/questions`;
+        const totalQuestions = 180;
+        const loadedExams: IQuestion[] = [];
+
+        for (let i = 1; i <= totalQuestions; i++) {
+          try {
+            const questionPath = (year >= 2017 && year <= 2023 && i <= 5)
+              ? `${basePath}/${i}-${selectedLanguage}/details.json`
+              : `${basePath}/${i}/details.json`;
+
+            const module = await import(/* @vite-ignore */ questionPath);
+            loadedExams.push(module.default as IQuestion);
+          } catch (error) {
+            console.error(`Erro ao carregar questão ${i}:`, error);
+          }
+        }
+
+        if (loadedExams.length === 0) {
+          setError('Nenhuma questão encontrada para os filtros selecionados');
+        } else {
+          setExams(loadedExams);
+        }
+      } catch (error) {
+        setError('Erro ao carregar questões');
+        console.error('Error loading questions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAllQuestions();
+  }, [selectedYear, selectedLanguage]);
+
+  const handleSelectYear = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLanguage(null);
+    setExams([]);
+    setSelectedYear(e.target.value);
+  };
+
+  const handleSelectLanguage = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLanguage(e.target.value);
+  };
+
+  return (
+    <Container className={styles.container}>
+      <Form>
+        <Form.Label htmlFor='year'>Selecione o ano:</Form.Label>
+        <Form.Select
+          id='year'
+          name='year'
+          aria-label='Selecione o ano'
+          className={styles.select}
+          onChange={handleSelectYear}
+          value={selectedYear}
+        >
+          <option value=''>Selecione o ano</option>
+          {Array.from({ length: 15 }, (_, i) => 2009 + i).map(year => (
+            <option key={year} value={year.toString()}>{year}</option>
+          ))}
+        </Form.Select>
+
+        {selectedYear && Number(selectedYear) >= 2017 && (
+          <Row>
+            <Form.Label htmlFor='language' className="mt-3">Selecione a língua estrangeira:</Form.Label>
+            <Form.Select
+              id='language'
+              name='language'
+              aria-label='Selecione a língua estrangeira'
+              className={styles.select}
+              onChange={handleSelectLanguage}
+              value={selectedLanguage || ''}
+            >
+              <option value=''>Selecione a língua estrangeira</option>
+              <option value='ingles'>Inglês</option>
+              <option value='espanhol'>Espanhol</option>
+            </Form.Select>
+          </Row>
+        )}
+      </Form>
+
+      {loading && (
+        <div className="text-center mt-4">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Carregando...</span>
+          </Spinner>
+          <p>Carregando questões...</p>
+        </div>
+      )}
+
+      {error && (
+        <Alert variant="danger" className="mt-3">
+          {error}
+        </Alert>
+      )}
+
+      {exams.length > 0 && (
+        <div className="mt-4">
+          <h2>Questões do ENEM {selectedYear}</h2>
+          {selectedLanguage && (
+            <p>Língua Estrangeira: {selectedLanguage === 'ingles' ? 'Inglês' : 'Espanhol'}</p>
+          )}
+
+          <div className="questions-container">
+            {exams.map((exam, index) => (
+              <div key={index} className="question-card mb-4 p-3 border rounded">
+                <h3>{exam.title || `Questão ${index + 1}`}</h3>
+
+                {exam?.context && <div dangerouslySetInnerHTML={{ __html: parseContext(exam.context) }} />}
+
+                {exam.alternativesIntroduction && (
+                  <div className="mb-3">
+                    <strong>Enunciado:</strong>
+                    <p>{exam.alternativesIntroduction}</p>
+                  </div>
+                )}
+
+                <div className="mb-3">
+                  <strong>Alternativas:</strong>
+                  {exam.alternatives.map((alternative) => {
+                    if (alternative?.text) {
+                      return (
+                        <div key={alternative.letter}>
+                          <strong>{alternative.letter}</strong> - {alternative.text}
+                        </div>
+                      );
+                    }
+                    
+                    if (alternative?.file) {
+                      const src = alternative.file.replace('https://enem.dev', 'src/exams');
+
+                      return (
+                        <div key={alternative.letter}>
+                          <strong>{alternative.letter}</strong> - <Image src={src} fluid className="img-fluid mb-3" />
+                        </div>
+                      );
+                    }
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </Container>
+  );
+};
+
+export default Home;

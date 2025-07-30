@@ -1,0 +1,48 @@
+.navbar {
+  width: 100%;
+  height: 80px;
+  background-color: var(--nav-color);
+  margin: 0;
+  padding: 0;
+}
+
+.brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.logo_header {
+  width: 150.5px;
+  height: 85.5px;
+  padding: 10px;
+}
+
+.link {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+}
+
+.link:hover {
+  color: var(--color);
+}
+
+.offcanvas {
+  color: var(--color);
+  background-color: var(--background-color);
+}
+
+.navbar {
+  --bs-navbar-toggler-padding-y: 0;
+  --bs-navbar-toggler-font-size: 1.5rem;
+  --bs-navbar-toggler-border-color: none;
+  --bs-navbar-toggler-border-radius: 0;
+  --bs-navbar-toggler-focus-width: 0;
+}
+
+.navbar-dark {
+  --bs-navbar-toggler-border-color: none;
+}
