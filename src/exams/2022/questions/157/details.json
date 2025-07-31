@@ -37,7 +37,8 @@
             "letter": "E",
             "text": null,
             "file": "https://enem.dev/2022/questions/157/af3c085b-7eb0-4462-a0b1-f79fd1291f67.png",
-            "isCorrect": true
+            "isCorrect": false
         }
-    ]
+    ],
+    "canceled": true
 }

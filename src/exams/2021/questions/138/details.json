@@ -15,7 +15,7 @@
             "letter": "A",
             "text": null,
             "file": "https://enem.dev/2021/questions/138/280b031c-3cd8-44f6-b0fd-7fe30bc5d42a.png",
-            "isCorrect": true
+            "isCorrect": false
         },
         {
             "letter": "B",
@@ -41,5 +41,6 @@
             "file": "https://enem.dev/2021/questions/138/7ab4be57-7af0-4722-b7c3-1b331c40830b.png",
             "isCorrect": false
         }
-    ]
+    ],
+    "canceled": true
 }

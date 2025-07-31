@@ -13,7 +13,7 @@
             "letter": "A",
             "text": "Duplicação em uma das plantas parentais antes do cruzamento.",
             "file": null,
-            "isCorrect": true
+            "isCorrect": false
         },
         {
             "letter": "B",
@@ -39,5 +39,6 @@
             "file": null,
             "isCorrect": false
         }
-    ]
+    ],
+    "canceled": true
 }

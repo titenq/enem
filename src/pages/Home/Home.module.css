@@ -6,3 +6,46 @@
 .select {
   width: 180px;
 }
+
+.questions_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.question_card {
+  width: 100%;
+  border: 2px solid #ccc;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.canceled {
+  position: relative;
+  background-color: rgba(204, 204, 204, 0.2);
+  color: #ccc;
+}
+
+.canceled_message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-5deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ccc;
+  font-size: 52px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transform-origin: center;
+  background-color: rgba(204, 204, 204, 0.7);
+  border: 2px solid rgba(255, 0, 0, 1);
+  color: rgba(255, 0, 0, 1);
+  border-radius: 10px;
+  padding: 20px;
+  z-index: 100;
+}

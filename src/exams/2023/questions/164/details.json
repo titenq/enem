@@ -33,7 +33,7 @@
             "letter": "D",
             "text": "Adultos entre 20 e 29 anos.",
             "file": null,
-            "isCorrect": true
+            "isCorrect": false
         },
         {
             "letter": "E",
@@ -41,5 +41,6 @@
             "file": null,
             "isCorrect": false
         }
-    ]
+    ],
+    "canceled": true
 }

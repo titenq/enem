@@ -16,8 +16,9 @@ const Home = () => {
 
     const year = parseInt(selectedYear);
 
-    if (year >= 2017 && year <= 2023 && !selectedLanguage) {
+    if (year >= 2010 && year <= 2023 && !selectedLanguage) {
       setExams([]);
+
       return;
     }
 
@@ -33,11 +34,18 @@ const Home = () => {
 
         for (let i = 1; i <= totalQuestions; i++) {
           try {
-            const questionPath = (year >= 2017 && year <= 2023 && i <= 5)
-              ? `${basePath}/${i}-${selectedLanguage}/details.json`
-              : `${basePath}/${i}/details.json`;
+            let questionPath = `${basePath}/${i}`;
+
+            if ((year >= 2017 && year <= 2023 && i <= 5) || (year >= 2010 && year <= 2016 && i >= 91 && i <= 95)) {
+              if (selectedLanguage) {
+                questionPath += `-${selectedLanguage}`;
+              }
+            }
+
+            questionPath += '/details.json';
 
             const module = await import(/* @vite-ignore */ questionPath);
+
             loadedExams.push(module.default as IQuestion);
           } catch (error) {
             console.error(`Erro ao carregar questão ${i}:`, error);
@@ -51,6 +59,7 @@ const Home = () => {
         }
       } catch (error) {
         setError('Erro ao carregar questões');
+        
         console.error('Error loading questions:', error);
       } finally {
         setLoading(false);
@@ -91,7 +100,7 @@ const Home = () => {
             </Form.Select>
           </Col>
 
-          {selectedYear && Number(selectedYear) >= 2017 && (
+          {selectedYear && Number(selectedYear) >= 2010 && (
             <Col sm={3}>
               <Form.Label htmlFor='language'>Selecione a língua estrangeira:</Form.Label>
               <Form.Select
@@ -133,9 +142,9 @@ const Home = () => {
             <p>Língua Estrangeira: {selectedLanguage === 'ingles' ? 'Inglês' : 'Espanhol'}</p>
           )}
 
-          <div className="questions-container">
+          <div className={styles.questions_container}>
             {exams.map((exam, index) => (
-              <div key={index} className="question-card mb-4 p-3 border rounded">
+              <div key={index} className={`${styles.question_card} ${exam?.canceled ? styles.canceled : ''}`}>
                 <h3>{exam.title || `Questão ${index + 1}`}</h3>
 
                 {exam?.context && <div dangerouslySetInnerHTML={{ __html: parseContext(exam.context) }} />}
@@ -169,6 +178,8 @@ const Home = () => {
                     }
                   })}
                 </div>
+
+                {exam?.canceled && <p className={styles.canceled_message}>Questão anulada</p>}
               </div>
             ))}
           </div>

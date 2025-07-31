@@ -13,7 +13,7 @@
             "letter": "A",
             "text": "1 ano e 8 meses a 12 anos e 6 meses.",
             "file": null,
-            "isCorrect": true
+            "isCorrect": false
         },
         {
             "letter": "B",
@@ -39,5 +39,6 @@
             "file": null,
             "isCorrect": false
         }
-    ]
+    ],
+    "canceled": true
 }

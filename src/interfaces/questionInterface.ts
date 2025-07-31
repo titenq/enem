@@ -16,4 +16,5 @@ export interface IQuestion {
   correctAlternative: string;
   alternativesIntroduction?: string | null;
   alternatives: IAlternative[];
+  canceled?: boolean;
 }
