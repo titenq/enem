@@ -1,0 +1,43 @@
+{
+    "title": "Questão 145 - ENEM 2015",
+    "index": 145,
+    "year": 2015,
+    "language": null,
+    "discipline": "matematica",
+    "context": "O gerente de um cinema fornece anualmente ingressos gratuitos para escolas. Este ano serão distribuídos 400 ingressos para uma sessão vespertina e 320 ingressos para uma sessão noturna de um mesmo filme. Várias escolas podem ser escolhidas para receberem ingressos. Há alguns critérios para a distribuição dos ingressos:\n\n1) cada escola deverá receber ingressos para uma única sessão;\n\n2) todas as escolas contempladas deverão receber o mesmo número de ingressos;\n\n3) não haverá sobra de ingressos (ou seja, todos os ingressos serão distribuídos).",
+    "files": [],
+    "correctAlternative": "C",
+    "alternativesIntroduction": "O número mínimo de escolas que podem ser escolhidas para obter ingressos, segundo os critérios estabelecidos, é",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "2.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "4.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "9.",
+            "file": null,
+            "isCorrect": true
+        },
+        {
+            "letter": "D",
+            "text": "40.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "80.",
+            "file": null,
+            "isCorrect": false
+        }
+    ]
+}

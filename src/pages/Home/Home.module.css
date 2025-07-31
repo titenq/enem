@@ -23,6 +23,27 @@
   border-radius: 10px;
 }
 
+.alternative {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.alternative_letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--color);
+  color: var(--background-color);
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .canceled {
   position: relative;
   background-color: rgba(204, 204, 204, 0.2);

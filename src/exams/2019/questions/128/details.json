@@ -1,0 +1,43 @@
+{
+    "title": "Questão 128 - ENEM 2019",
+    "index": 128,
+    "year": 2019,
+    "language": null,
+    "discipline": "ciencias-natureza",
+    "context": "Em 1808, Dalton publicou o seu famoso livro intitulado Um novo sistema de filosofia química (do original A New System of Chemical Philosophy), no qual continha os cinco postulados que serviam como alicerce da primeira teoria atômica da matéria fundamentada no método científico. Esses postulados são numerados a seguir:\n\n1. A matéria é constituída de átomos indivisíveis.\n\n2. Todos os átomos de um dado elemento químico são idênticos em massa e em todas as outras propriedades.\n\n3. Diferentes elementos químicos têm diferentes tipos de átomos; em particular, seus átomos têm diferentes massas.\n\n4. Os átomos são indestrutíveis e nas reações químicas mantêm suas identidades.\n\n5. Átomos de elementos combinam com átomos de outros elementos em proporções de números inteiros pequenos para formar compostos.\n\nApós o modelo de Dalton, outros modelos baseados em outros dados experimentais evidenciaram, entre outras coisas, a natureza elétrica da matéria, a composição e organização do átomo e a quantização da energia no modelo atômico.\n\nOXTOBY, D. W.; GILLIS, H. P.; BUTLER, L. J. Principles of ModernChemistry. Boston: Cengage Learning, 2012 (adaptado).",
+    "files": [],
+    "correctAlternative": "E",
+    "alternativesIntroduction": "Com base no modelo atual que descreve o átomo, qual dos postulados de Dalton ainda é considerado correto?",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "1",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "2",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "3",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "D",
+            "text": "4",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "5",
+            "file": null,
+            "isCorrect": true
+        }
+    ]
+}

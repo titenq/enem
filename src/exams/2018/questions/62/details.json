@@ -1,0 +1,43 @@
+{
+    "title": "Questão 62 - ENEM 2018",
+    "index": 62,
+    "year": 2018,
+    "language": null,
+    "discipline": "ciencias-humanas",
+    "context": "A situação demográfica de Israel é muito particular. Desde 1967, a esquerda sionista afirma que Israel deveria se desfazer rapidamente da Cisjordânia e da Faixa de Gaza, argumentando a partir de uma lógica demográfica aparentemente inexorável. Devido à taxa de nascimento árabe ser muito mais elevada, a anexação dos territórios palestinos, formal ou informal, acarretaria dentro de uma ou duas gerações uma maioria árabe \"entre o rio e o mar\".\n\nDEMANT, P. Israel: a crise próxima. História, n. 2, jul.-dez. 2014.",
+    "files": [],
+    "correctAlternative": "B",
+    "alternativesIntroduction": "A prática histórico-cultural de matriz africana descrita no texto representava um(a)",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "abdicação da interferência militar em conflito local.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "busca da preeminência étnica sobre o espaço nacional.",
+            "file": null,
+            "isCorrect": true
+        },
+        {
+            "letter": "C",
+            "text": "admissão da participação proativa em blocos regionais.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "D",
+            "text": "rompimento com os interesses geopolíticos das potências globais.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "compromisso com as resoluções emanadas dos organismos internacionais.",
+            "file": null,
+            "isCorrect": false
+        }
+    ]
+}

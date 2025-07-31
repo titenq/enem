@@ -1,0 +1,43 @@
+{
+    "title": "Questão 100 - ENEM 2019",
+    "index": 100,
+    "year": 2019,
+    "language": null,
+    "discipline": "ciencias-natureza",
+    "context": "Um alimento orgânico deve apresentar em sua embalagem o selo de uma instituição certificadora, garantindo ao consumidor que, além de ser um alimento isento de agrotóxicos, também é produzido com técnicas planejadas e controladas. A técnica de produção desses alimentos causa menor impacto aos recursos naturais, contribuindo para melhorar a qualidade de vida das pessoas.",
+    "files": [],
+    "correctAlternative": "D",
+    "alternativesIntroduction": "Nesse sistema de produção de alimentos vegetais, o controle de insetos é manejado por meio do(a)",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "prática de adubação verde.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "emprego da compostagem.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "controle da irrigação do solo.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "D",
+            "text": "utilização de predadores naturais.",
+            "file": null,
+            "isCorrect": true
+        },
+        {
+            "letter": "E",
+            "text": "uso de sementes inoculadas com Rhizobium.",
+            "file": null,
+            "isCorrect": false
+        }
+    ]
+}

@@ -59,7 +59,7 @@ const Home = () => {
         }
       } catch (error) {
         setError('Erro ao carregar questões');
-        
+
         console.error('Error loading questions:', error);
       } finally {
         setLoading(false);
@@ -143,26 +143,24 @@ const Home = () => {
           )}
 
           <div className={styles.questions_container}>
-            {exams.map((exam, index) => (
-              <div key={index} className={`${styles.question_card} ${exam?.canceled ? styles.canceled : ''}`}>
-                <h3>{exam.title || `Questão ${index + 1}`}</h3>
+            {exams.map((exam) => (
+              <div key={exam.index} className={`${styles.question_card} ${exam?.canceled ? styles.canceled : ''}`}>
+                <h3>{exam.title}</h3>
 
                 {exam?.context && <div dangerouslySetInnerHTML={{ __html: parseContext(exam.context) }} />}
 
                 {exam.alternativesIntroduction && (
-                  <div className="mb-3">
-                    <strong>Enunciado:</strong>
+                  <div className="mb-3 mt-3">
                     <p>{exam.alternativesIntroduction}</p>
                   </div>
                 )}
 
                 <div className="mb-3">
-                  <strong>Alternativas:</strong>
                   {exam.alternatives.map((alternative) => {
                     if (alternative?.text) {
                       return (
-                        <div key={alternative.letter}>
-                          <strong>{alternative.letter}</strong> - {alternative.text}
+                        <div key={alternative.letter} className={styles.alternative}>
+                          <div className={styles.alternative_letter}>{alternative.letter}</div> {alternative.text}
                         </div>
                       );
                     }
@@ -172,7 +170,7 @@ const Home = () => {
 
                       return (
                         <div key={alternative.letter}>
-                          <strong>{alternative.letter}</strong> - <Image src={src} fluid className="img-fluid mb-3" />
+                          <strong>{alternative.letter}</strong> - <Image src={src} fluid className="mb-3" />
                         </div>
                       );
                     }

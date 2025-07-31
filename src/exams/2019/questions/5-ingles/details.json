@@ -1,0 +1,45 @@
+{
+    "title": "Questão 5 - ENEM 2019",
+    "index": 5,
+    "year": 2019,
+    "language": "ingles",
+    "discipline": "linguagens",
+    "context": "![](https://enem.dev/2019/questions/5-ingles/cec1fc23-8701-42af-93d4-d1ca5aef4495.png)",
+    "files": [
+        "https://enem.dev/2019/questions/5-ingles/cec1fc23-8701-42af-93d4-d1ca5aef4495.png"
+    ],
+    "correctAlternative": "E",
+    "alternativesIntroduction": "No cartum, o estudante faz uma pergunta usando turn this thing on por",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "suspeitar que o colega está com seu material por engano.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "duvidar que o colega possa se tornar um bom aluno.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "desconfiar que o livro levado é de outra matéria.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "D",
+            "text": "entender como desligada a postura do colega.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "desconhecer como usar um livro impresso.",
+            "file": null,
+            "isCorrect": true
+        }
+    ]
+}

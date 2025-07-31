@@ -4,7 +4,7 @@
     "year": 2015,
     "language": null,
     "discipline": "matematica",
-    "context": "",
+    "context": "Para resolver o problema de abastecimento de água foi decidida, numa reunião do condomínio, a construção de uma nova cisterna. A cisterna atual tem formato cilíndrico, com 3 m de altura e 2 m de diâmetro, e estimou-se que a nova cisterna deverá comportar 81 m3 de água, mantendo o formato cilíndrico e a altura da atual. Após a inauguração da nova cisterna a antiga será desativada. Utilize 3,0 como aproximação para π.",
     "files": [],
     "correctAlternative": "C",
     "alternativesIntroduction": "Qual deve ser o aumento, em metros, no raio da cisterna para atingir o volume desejado?",

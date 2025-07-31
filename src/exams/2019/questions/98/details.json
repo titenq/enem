@@ -1,0 +1,45 @@
+{
+    "title": "Questão 98 - ENEM 2019",
+    "index": 98,
+    "year": 2019,
+    "language": null,
+    "discipline": "ciencias-natureza",
+    "context": "Os olhos humanos normalmente têm três tipos de cones responsáveis pela percepção das cores: um tipo para tons vermelhos, um para tons azuis e outro para tons verdes. As diversas cores que enxergamos são o resultado da percepção das cores básicas, como indica a figura.\n\n![](https://enem.dev/2019/questions/98/0de2fce4-9bf1-49da-93ee-c5433ded2f95.png)\n\nA protanopia é um tipo de daltonismo em que há diminuição ou ausência de receptores da cor vermelha. Considere um teste com dois voluntários: uma pessoa com visão normal e outra com caso severo de protanopia. Nesse teste, eles devem escrever a cor dos cartões que lhes são mostrados. São utilizadas as cores indicadas na figura.",
+    "files": [
+        "https://enem.dev/2019/questions/98/0de2fce4-9bf1-49da-93ee-c5433ded2f95.png"
+    ],
+    "correctAlternative": "E",
+    "alternativesIntroduction": "Para qual cartão os dois voluntários identificarão a mesma cor?",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "Vermelho.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "Magenta.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "Amarelo.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "D",
+            "text": "Branco.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "Azul.",
+            "file": null,
+            "isCorrect": true
+        }
+    ]
+}

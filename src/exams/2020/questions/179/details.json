@@ -1,0 +1,43 @@
+{
+    "title": "Questão 179 - ENEM 2020",
+    "index": 179,
+    "year": 2020,
+    "language": null,
+    "discipline": "matematica",
+    "context": "Um pé de eucalipto em idade adequada para o corte rende, em média, 20 mil folhas de papel A4. A densidade superficial do papel A4, medida pela razão da massa de uma folha desse papel por sua área, é de 75 gramas por metro quadrado, e a área de uma folha de A4 é 0,062 metro quadrado.\n\nDisponível em: http://revistagalileu.globo.com. Acesso em: 28 fev. 2013 (adaptado).",
+    "files": [],
+    "correctAlternative": "E",
+    "alternativesIntroduction": "Nessas condições, quantos quilogramas de papel rende, em média, um pé de eucalipto?",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "4 301",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "1 500",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "930",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "D",
+            "text": "267",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "93",
+            "file": null,
+            "isCorrect": true
+        }
+    ]
+}
