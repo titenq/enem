@@ -30,7 +30,7 @@ const Home = () => {
 
       try {
         const year = parseInt(selectedYear);
-        const basePath = '/exams';
+        const basePath = 'https://titenq-enem.vercel.app/exams';
         const totalQuestions = 180;
 
         let languageQuestionsRange = null;
