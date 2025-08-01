@@ -96,14 +96,14 @@ img {
 }
 
 .radio_input:checked + .alternative {
-  background-color: rgba(230, 81, 0, 0.1);
-  box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.5);
+  background-color: rgba(204, 204, 204, 0.1);
+  box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
 }
 
 .canceled {
   position: relative;
   background-color: rgba(230, 81, 0, 0.3);
-  color: #ccc;
+  color: var(--color);
 }
 
 .canceled_message {
@@ -115,7 +115,7 @@ img {
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #ccc;
+  color: var(--color);
   font-size: 48px;
   font-weight: bold;
   text-transform: uppercase;
@@ -139,10 +139,46 @@ img {
   background-color: var(--nav-color);
   text-transform: uppercase;
   border: none;
+  padding-inline: 40px;
 }
 
 .button_submit:hover {
   background-color: rgba(230, 81, 0, 0.7);
+}
+
+.button_submit:active {
+  background-color: rgba(230, 81, 0, 0.5) !important;
+}
+
+.correct {
+  background-color: rgba(40, 167, 69, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.5) !important;
+  border-left: 4px solid #28a745;
+}
+
+.incorrect {
+  background-color: rgba(220, 53, 69, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.5) !important;
+  border-left: 4px solid #dc3545;
+}
+
+.results_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+  border: 2px solid var(--color);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.results_text {
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--color);
+  margin: 0;
+  padding: 0;
 }
 
 @media (max-width: 768px) {

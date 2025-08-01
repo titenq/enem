@@ -11,6 +11,7 @@ const Home = () => {
   const [exams, setExams] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
+  const [results, setResults] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     if (!selectedYear) return;
@@ -102,7 +103,21 @@ const Home = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log('Respostas selecionadas:', selectedAnswers);
+    const newResults: { [key: number]: boolean } = {};
+
+    exams.forEach(exam => {
+      if (exam.canceled) {
+        return;
+      }
+
+      const selectedAnswer = selectedAnswers[exam.index];
+
+      if (selectedAnswer) {
+        newResults[exam.index] = selectedAnswer === exam.correctAlternative;
+      }
+    });
+
+    setResults(newResults);
   };
 
   return (
@@ -182,35 +197,44 @@ const Home = () => {
                   )}
 
                   <div className={styles.alternatives_container}>
-                    {exam.alternatives.map((alternative) => (
-                      <div
-                        key={alternative.letter}
-                        className={`${styles.alternative_label} ${exam?.canceled ? styles.disabled_alternative : ''}`}
-                        onClick={() => !exam?.canceled && handleAnswerSelect(exam.index, alternative.letter)}
-                      >
-                        <input
-                          type="radio"
-                          name={`question-${exam.index}`}
-                          className={styles.radio_input}
-                          checked={selectedAnswers[exam.index] === alternative.letter}
-                          onChange={() => { }}
-                          disabled={exam?.canceled}
-                        />
-                        <div className={styles.alternative}>
-                          <div className={styles.alternative_letter}>{alternative.letter}</div>
-                          {alternative?.text ? (
-                            <span>{alternative.text}</span>
-                          ) : alternative?.file ? (
-                            <Image
-                              src={alternative.file.replace('https://enem.dev', 'src/exams')}
-                              alt={`Imagem da alternativa ${alternative.letter}`}
-                              fluid
-                              className='mb-3'
-                            />
-                          ) : null}
+                    {exam.alternatives.map((alternative) => {
+                      const isSelected = selectedAnswers[exam.index] === alternative.letter;
+                      const isCorrect = alternative.letter === exam.correctAlternative;
+                      const showResult = results[exam.index] !== undefined;
+
+                      return (
+                        <div
+                          key={alternative.letter}
+                          className={`${styles.alternative_label} ${exam?.canceled ? styles.disabled_alternative : ''}`}
+                          onClick={() => !exam?.canceled && handleAnswerSelect(exam.index, alternative.letter)}
+                        >
+                          <input
+                            type="radio"
+                            name={`question-${exam.index}`}
+                            className={styles.radio_input}
+                            checked={isSelected}
+                            onChange={() => {}}
+                            disabled={exam?.canceled}
+                          />
+                          <div className={`
+                            ${styles.alternative}
+                            ${showResult && isSelected ? (isCorrect ? styles.correct : styles.incorrect) : ''}
+                          `}>
+                            <div className={styles.alternative_letter}>{alternative.letter}</div>
+                            {alternative?.text ? (
+                              <span>{alternative.text}</span>
+                            ) : alternative?.file ? (
+                              <Image
+                                src={alternative.file.replace('https://enem.dev', 'src/exams')}
+                                alt={`Imagem da alternativa ${alternative.letter}`}
+                                fluid
+                                className='mb-3'
+                              />
+                            ) : null}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
 
                     {exam?.canceled && <p className={styles.canceled_message}>Questão anulada</p>}
                   </div>
@@ -218,7 +242,15 @@ const Home = () => {
               </div>
             ))}
 
-            <div className='text-center mt-4'>
+            {Object.keys(results).length > 0 && (
+              <div className={styles.results_container}>
+                <p className={styles.results_text}>
+                  Você acertou {Object.values(results).filter(r => r).length} de {exams.filter(e => !e.canceled).length}
+                </p>
+              </div>
+            )}
+
+            <div className='mt-4'>
               <Button type='submit' size='lg' className={styles.button_submit}>Enviar Respostas</Button>
             </div>
           </Form>
