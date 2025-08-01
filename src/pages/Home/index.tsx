@@ -47,17 +47,7 @@ const Home = () => {
             }
 
             const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
-
             const response = await fetch(url);
-
-            /* const contentType = response.headers.get('content-type') || '';
-
-            if (!response.ok || !contentType.includes('application/json')) {
-              const text = await response.text();
-
-              throw new Error(`Resposta inválida (${response.status}): ${text.slice(0, 100)}`);
-            } */
-
             const data = await response.json();
 
             loadedExams.push({ ...data, index: i });
