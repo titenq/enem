@@ -24,7 +24,6 @@ img {
   width: 100%;
   border: 2px solid #ccc;
   border-radius: 10px;
-  position: relative;
 }
 
 .title {
@@ -82,20 +81,28 @@ img {
   background: none;
 }
 
+.alternatives_container {
+  position: relative;
+}
+
 .alternative_label {
   width: 100%;
   cursor: pointer;
   margin-bottom: 0;
 }
 
-.radio_input:checked + .alternative_label .alternative {
+.alternative_label:hover .alternative {
+  background-color: rgba(204, 204, 204, 0.2);
+}
+
+.radio_input:checked + .alternative {
   background-color: rgba(230, 81, 0, 0.1);
   box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.5);
 }
 
 .canceled {
   position: relative;
-  background-color: rgba(204, 204, 204, 0.2);
+  background-color: rgba(230, 81, 0, 0.3);
   color: #ccc;
 }
 
@@ -119,6 +126,23 @@ img {
   border-radius: 10px;
   padding: 20px;
   z-index: 100;
+}
+
+.disabled_alternative {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.button_submit {
+  font-weight: bold;
+  background-color: var(--nav-color);
+  text-transform: uppercase;
+  border: none;
+}
+
+.button_submit:hover {
+  background-color: rgba(230, 81, 0, 0.7);
 }
 
 @media (max-width: 768px) {

@@ -1,6 +1,5 @@
-import { useEffect, useState, ChangeEvent } from 'react';
-
-import { Container, Form, Spinner, Row, Image, Col } from 'react-bootstrap';
+import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { Container, Form, Spinner, Row, Image, Col, Button } from 'react-bootstrap';
 
 import styles from './Home.module.css';
 import { IQuestion } from '../../interfaces/questionInterface';
@@ -20,7 +19,6 @@ const Home = () => {
 
     if (year >= 2010 && year <= 2023 && !selectedLanguage) {
       setExams([]);
-
       return;
     }
 
@@ -32,29 +30,39 @@ const Home = () => {
       try {
         const basePath = `../../exams/${selectedYear}/questions`;
         const totalQuestions = 180;
-        const loadedExams: IQuestion[] = [];
+        const year = parseInt(selectedYear);
 
-        for (let i = 1; i <= totalQuestions; i++) {
-          try {
-            let questionPath = `${basePath}/${i}`;
+        const languageQuestionsRange = {
+          start: year >= 2017 ? 1 : 91,
+          end: year >= 2017 ? 5 : 95
+        };
 
-            if (
-              (year >= 2017 && year <= 2023 && i <= 5) || (year >= 2010 && year <= 2016 && i >= 91 && i <= 95)
-            ) {
-              if (selectedLanguage) {
+        const questionsToLoad = Array.from({ length: totalQuestions }, (_, i) => i + 1);
+
+        const results = await Promise.allSettled(
+          questionsToLoad.map(async (i) => {
+            try {
+              const isLanguageQuestion = i >= languageQuestionsRange.start && i <= languageQuestionsRange.end;
+              let questionPath = `${basePath}/${i}`;
+
+              if (isLanguageQuestion && selectedLanguage) {
                 questionPath += `-${selectedLanguage}`;
               }
+
+              const module = await import(/* @vite-ignore */ `${questionPath}/details.json`);
+
+              return module.default as IQuestion;
+            } catch (error) {
+              console.error(`Erro ao carregar questão ${i}:`, error);
+
+              throw error;
             }
+          })
+        );
 
-            questionPath += '/details.json';
-
-            const module = await import(/* @vite-ignore */ questionPath);
-
-            loadedExams.push(module.default as IQuestion);
-          } catch (error) {
-            console.error(`Erro ao carregar questão ${i}:`, error);
-          }
-        }
+        const loadedExams = results
+          .filter(result => result.status === 'fulfilled')
+          .map(result => (result as PromiseFulfilledResult<IQuestion>).value);
 
         setExams(loadedExams);
       } catch (error) {
@@ -79,10 +87,22 @@ const Home = () => {
   };
 
   const handleAnswerSelect = (questionIndex: number, letter: string) => {
+    const exam = exams.find(ex => ex.index === questionIndex);
+
+    if (exam?.canceled) {
+      return;
+    }
+
     setSelectedAnswers(prev => ({
       ...prev,
       [questionIndex]: letter
     }));
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    console.log('Respostas selecionadas:', selectedAnswers);
   };
 
   return (
@@ -131,7 +151,7 @@ const Home = () => {
           <Spinner animation='border' role='status'>
             <span className='visually-hidden'>Carregando...</span>
           </Spinner>
-          
+
           <p>Carregando questões...</p>
         </div>
       )}
@@ -144,7 +164,7 @@ const Home = () => {
             <p>Língua Estrangeira: {selectedLanguage === 'ingles' ? 'Inglês' : 'Espanhol'}</p>
           )}
 
-          <div className={styles.questions_container}>
+          <Form onSubmit={handleSubmit} className={styles.questions_container}>
             {exams.map((exam) => (
               <div
                 key={exam.index}
@@ -161,48 +181,47 @@ const Home = () => {
                     </div>
                   )}
 
-                  <div className='mb-3'>
-                    <Form>
-                      {exam.alternatives.map((alternative) => (
-                        <Form.Check
-                          key={alternative.letter}
+                  <div className={styles.alternatives_container}>
+                    {exam.alternatives.map((alternative) => (
+                      <div
+                        key={alternative.letter}
+                        className={`${styles.alternative_label} ${exam?.canceled ? styles.disabled_alternative : ''}`}
+                        onClick={() => !exam?.canceled && handleAnswerSelect(exam.index, alternative.letter)}
+                      >
+                        <input
                           type="radio"
-                          id={`${exam.index}-${alternative.letter}`}
                           name={`question-${exam.index}`}
-                          className={styles.radio_check}
-                        >
-                          <Form.Check.Input
-                            type="radio"
-                            className={styles.radio_input}
-                            checked={selectedAnswers[exam.index] === alternative.letter}
-                            onChange={() => handleAnswerSelect(exam.index, alternative.letter)}
-                          />
-                          <Form.Check.Label className={styles.alternative_label}>
-                            <div className={styles.alternative}>
-                              <div className={styles.alternative_letter}>{alternative.letter}</div>
+                          className={styles.radio_input}
+                          checked={selectedAnswers[exam.index] === alternative.letter}
+                          onChange={() => { }}
+                          disabled={exam?.canceled}
+                        />
+                        <div className={styles.alternative}>
+                          <div className={styles.alternative_letter}>{alternative.letter}</div>
+                          {alternative?.text ? (
+                            <span>{alternative.text}</span>
+                          ) : alternative?.file ? (
+                            <Image
+                              src={alternative.file.replace('https://enem.dev', 'src/exams')}
+                              alt={`Imagem da alternativa ${alternative.letter}`}
+                              fluid
+                              className='mb-3'
+                            />
+                          ) : null}
+                        </div>
+                      </div>
+                    ))}
 
-                              {alternative?.text ? (
-                                <span>{alternative.text}</span>
-                              ) : alternative?.file ? (
-                                <Image
-                                  src={alternative.file.replace('https://enem.dev', 'src/exams')}
-                                  alt={`Imagem da alternativa ${alternative.letter}`}
-                                  fluid
-                                  className='mb-3'
-                                />
-                              ) : null}
-                            </div>
-                          </Form.Check.Label>
-                        </Form.Check>
-                      ))}
-                    </Form>
+                    {exam?.canceled && <p className={styles.canceled_message}>Questão anulada</p>}
                   </div>
                 </div>
-
-                {exam?.canceled && <p className={styles.canceled_message}>Questão anulada</p>}
               </div>
             ))}
-          </div>
+
+            <div className='text-center mt-4'>
+              <Button type='submit' size='lg' className={styles.button_submit}>Enviar Respostas</Button>
+            </div>
+          </Form>
         </div>
       )}
     </Container>
