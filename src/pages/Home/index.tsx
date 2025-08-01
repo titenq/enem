@@ -61,6 +61,7 @@ const Home = () => {
 
             const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
 
+            console.log({ url });
             const response = await fetch(url);
 
             if (!response.ok && useLanguagePath && year === 2010) {
