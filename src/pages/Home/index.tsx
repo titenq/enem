@@ -50,13 +50,13 @@ const Home = () => {
 
             const response = await fetch(url);
 
-            const contentType = response.headers.get('content-type') || '';
+            /* const contentType = response.headers.get('content-type') || '';
 
             if (!response.ok || !contentType.includes('application/json')) {
               const text = await response.text();
 
               throw new Error(`Resposta inválida (${response.status}): ${text.slice(0, 100)}`);
-            }
+            } */
 
             const data = await response.json();
 
@@ -241,7 +241,7 @@ const Home = () => {
                               <span>{alternative.text}</span>
                             ) : alternative?.file ? (
                               <Image
-                                src={alternative.file.replace('https://enem.dev', 'src/exams')}
+                                src={alternative.file.replace('https://enem.dev', 'exams')}
                                 alt={`Imagem da alternativa ${alternative.letter}`}
                                 fluid
                                 className='mb-3'
