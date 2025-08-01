@@ -30,16 +30,22 @@ const Home = () => {
 
       try {
         const year = parseInt(selectedYear);
-        const basePath = '/exams';
+        const basePath = "/exams";
         const totalQuestions = 180;
+        const hasLanguageQuestions = year >= 2010;
 
-        const languageQuestionsRange = year >= 2017 ? { start: 1, end: 5 } : { start: 91, end: 95 };
+        const languageQuestionsRange = year >= 2017 ?
+          { start: 1, end: 5 } :
+          (year >= 2010 ? { start: 91, end: 95 } : null);
 
         const loadedExams = [];
 
         for (let i = 1; i <= totalQuestions; i++) {
           try {
-            const isLanguageQuestion = i >= languageQuestionsRange.start && i <= languageQuestionsRange.end;
+            const isLanguageQuestion = hasLanguageQuestions &&
+              languageQuestionsRange &&
+              (i >= languageQuestionsRange.start && i <= languageQuestionsRange.end);
+
             let questionSegment = `${i}`;
 
             if (isLanguageQuestion && selectedLanguage) {
@@ -48,6 +54,21 @@ const Home = () => {
 
             const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
             const response = await fetch(url);
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get('content-type') || '';
+
+            if (!contentType.includes('application/json')) {
+              const text = await response.text();
+
+              console.warn("Resposta não é JSON:", text.substring(0, 100));
+
+              throw new Error('Resposta não é JSON');
+            }
+
             const data = await response.json();
 
             loadedExams.push({ ...data, index: i });
@@ -56,7 +77,8 @@ const Home = () => {
             
             loadedExams.push({
               index: i,
-              title: `Questão ${i} (Erro ao carregar)`,
+              title: `Questão ${i}`,
+              context: "Erro ao carregar esta questão",
               alternatives: [],
               canceled: true
             });
@@ -65,7 +87,7 @@ const Home = () => {
 
         setExams(loadedExams);
       } catch (error) {
-        console.error('Error loading questions:', error);
+        console.error('Error geral no carregamento:', error);
       } finally {
         setLoading(false);
       }

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && cp -r public/exams dist/exams",
+    "build": "tsc -b && vite build && cp -R public/exams dist/exams",
     "lint": "eslint .",
     "preview": "vite preview"
   },
