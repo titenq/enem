@@ -142,7 +142,7 @@ const Home = () => {
           </Col>
 
           {selectedYear && Number(selectedYear) >= 2010 && (
-            <Col sm={3}>
+            <Col sm={5}>
               <Form.Label htmlFor='language'>Selecione a língua estrangeira:</Form.Label>
               <Form.Select
                 id='language'
@@ -179,7 +179,7 @@ const Home = () => {
             <p>Língua Estrangeira: {selectedLanguage === 'ingles' ? 'Inglês' : 'Espanhol'}</p>
           )}
 
-          <Form onSubmit={handleSubmit} className={styles.questions_container}>
+          <Form onSubmit={handleSubmit} className={styles.questions_container} noValidate>
             {exams.map((exam) => (
               <div
                 key={exam.index}
