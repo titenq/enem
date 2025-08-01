@@ -1,5 +1,26 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+  "headers": [
+    {
+      "source": "/exams/(.*\\.json$)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/exams/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
   ]
 }
