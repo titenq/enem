@@ -29,18 +29,13 @@ const Home = () => {
       setSelectedAnswers({});
 
       try {
-        const basePath = `../../exams/${selectedYear}/questions`;
-        const totalQuestions = 180;
         const year = parseInt(selectedYear);
-
-        const languageQuestionsRange = {
-          start: year >= 2017 ? 1 : 91,
-          end: year >= 2017 ? 5 : 95
-        };
-
+        const basePath = `exams/${selectedYear}/questions`;
+        const totalQuestions = 180;
+        const languageQuestionsRange = year >= 2017 ? { start: 1, end: 5 } : { start: 91, end: 95 };
         const questionsToLoad = Array.from({ length: totalQuestions }, (_, i) => i + 1);
 
-        const results = await Promise.allSettled(
+        const loadedExams = await Promise.all(
           questionsToLoad.map(async (i) => {
             try {
               const isLanguageQuestion = i >= languageQuestionsRange.start && i <= languageQuestionsRange.end;
@@ -50,22 +45,22 @@ const Home = () => {
                 questionPath += `-${selectedLanguage}`;
               }
 
-              const module = await import(/* @vite-ignore */ `${questionPath}/details.json`);
+              const response = await fetch(`/${questionPath}/details.json`);
 
-              return module.default as IQuestion;
+              if (!response.ok) throw new Error('Falha ao carregar questão');
+
+              const data = await response.json();
+
+              return { ...data, index: i } as IQuestion;
             } catch (error) {
               console.error(`Erro ao carregar questão ${i}:`, error);
 
-              throw error;
+              return null;
             }
           })
         );
 
-        const loadedExams = results
-          .filter(result => result.status === 'fulfilled')
-          .map(result => (result as PromiseFulfilledResult<IQuestion>).value);
-
-        setExams(loadedExams);
+        setExams(loadedExams.filter(Boolean) as IQuestion[]);
       } catch (error) {
         console.error('Error loading questions:', error);
       } finally {
