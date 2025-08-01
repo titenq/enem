@@ -30,37 +30,57 @@ const Home = () => {
 
       try {
         const year = parseInt(selectedYear);
-        const basePath = "/exams";
+        const basePath = '/exams';
         const totalQuestions = 180;
-        const hasLanguageQuestions = year >= 2010;
 
-        const languageQuestionsRange = year >= 2017 ?
-          { start: 1, end: 5 } :
-          (year >= 2010 ? { start: 91, end: 95 } : null);
+        let languageQuestionsRange = null;
+
+        if (year >= 2017) {
+          languageQuestionsRange = { start: 1, end: 5 };
+        } else if (year >= 2010 && year <= 2016) {
+          languageQuestionsRange = { start: 91, end: 95 };
+        }
 
         const loadedExams = [];
 
         for (let i = 1; i <= totalQuestions; i++) {
           try {
-            const isLanguageQuestion = hasLanguageQuestions &&
-              languageQuestionsRange &&
-              (i >= languageQuestionsRange.start && i <= languageQuestionsRange.end);
+            let isLanguageQuestion = false;
+
+            if (languageQuestionsRange) {
+              isLanguageQuestion = (i >= languageQuestionsRange.start && i <= languageQuestionsRange.end);
+            }
 
             let questionSegment = `${i}`;
+            let useLanguagePath = false;
 
             if (isLanguageQuestion && selectedLanguage) {
               questionSegment += `-${selectedLanguage}`;
+              useLanguagePath = true;
             }
 
             const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
+
             const response = await fetch(url);
+
+            if (!response.ok && useLanguagePath && year === 2010) {
+              const defaultUrl = `${basePath}/${selectedYear}/questions/${i}/details.json`;
+              const defaultResponse = await fetch(defaultUrl);
+
+              if (defaultResponse.ok) {
+                const data = await defaultResponse.json();
+
+                loadedExams.push({ ...data, index: i });
+
+                continue;
+              }
+            }
 
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const contentType = response.headers.get('content-type') || '';
-
             if (!contentType.includes('application/json')) {
               const text = await response.text();
 
@@ -80,7 +100,8 @@ const Home = () => {
               title: `Questão ${i}`,
               context: "Erro ao carregar esta questão",
               alternatives: [],
-              canceled: true
+              canceled: true,
+              year: parseInt(selectedYear)
             });
           }
         }
