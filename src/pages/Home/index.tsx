@@ -151,7 +151,9 @@ const Home = () => {
                       if (alternative?.text) {
                         return (
                           <div key={alternative.letter} className={styles.alternative}>
-                            <div className={styles.alternative_letter}>{alternative.letter}</div> {alternative.text}
+                            <div className={styles.alternative_letter}>{alternative.letter}</div>
+
+                            {alternative.text}
                           </div>
                         );
                       }
@@ -160,8 +162,15 @@ const Home = () => {
                         const src = alternative.file.replace('https://enem.dev', 'src/exams');
 
                         return (
-                          <div key={alternative.letter}>
-                            <strong>{alternative.letter}</strong> - <Image src={src} fluid className='mb-3' />
+                          <div key={alternative.letter} className={styles.alternative}>
+                            <div className={styles.alternative_letter}>{alternative.letter}</div>
+
+                            <Image
+                              src={src}
+                              alt={`Imagem da alternativa ${alternative.letter}`}
+                              fluid
+                              className='mb-3'
+                            />
                           </div>
                         );
                       }
