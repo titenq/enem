@@ -52,3 +52,9 @@
 .navbar-dark {
   --bs-navbar-toggler-border-color: none;
 }
+
+.arvo_bold {
+  font-family: "Arvo", serif;
+  font-weight: 700;
+  font-style: normal;
+}

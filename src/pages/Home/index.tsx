@@ -173,7 +173,7 @@ const Home = () => {
 
       {exams.length > 0 && (
         <div className='mt-4'>
-          <h2 className={styles.year}>Questões do ENEM {selectedYear}</h2>
+          <h2 className={styles.year}>Questões do <span className={styles.arvo_bold}>ENEM</span> {selectedYear}</h2>
 
           {selectedLanguage && (
             <p>Língua Estrangeira: {selectedLanguage === 'ingles' ? 'Inglês' : 'Espanhol'}</p>
@@ -185,7 +185,15 @@ const Home = () => {
                 key={exam.index}
                 className={`${styles.question_card} ${exam?.canceled ? styles.canceled : ''}`}
               >
-                <div className={styles.title}>{exam.title}</div>
+                <div
+                  className={styles.title}
+                  dangerouslySetInnerHTML={{
+                    __html: exam.title.replace(
+                      /ENEM/g,
+                      `<span class="${styles.arvo_bold}">ENEM</span>`
+                    )
+                  }}
+                />
 
                 <div className='p-3'>
                   {exam?.context && <div dangerouslySetInnerHTML={{ __html: parseContext(exam.context) }} />}

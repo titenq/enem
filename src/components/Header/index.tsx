@@ -26,7 +26,7 @@ const Header = () => {
             fluid
             className={styles.logo_header}
           />
-          <div className={styles.link}>ENEM</div>
+          <div className={`${styles.link} ${styles.arvo_bold}`}>ENEM</div>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls='offcanvas' />
         <Navbar.Offcanvas

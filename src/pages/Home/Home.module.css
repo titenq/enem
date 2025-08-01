@@ -96,8 +96,8 @@ img {
 }
 
 .radio_input:checked + .alternative {
-  background-color: rgba(204, 204, 204, 0.1);
-  box-shadow: 0 0 0 2px rgba(204, 204, 204, 0.5);
+  background-color: rgba(230, 81, 0, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.5);
 }
 
 .canceled {
@@ -179,6 +179,12 @@ img {
   color: var(--color);
   margin: 0;
   padding: 0;
+}
+
+.arvo_bold {
+  font-family: "Arvo", serif;
+  font-weight: 700;
+  font-style: normal;
 }
 
 @media (max-width: 768px) {
