@@ -30,37 +30,38 @@ const Home = () => {
 
       try {
         const year = parseInt(selectedYear);
-        const basePath = `exams/${selectedYear}/questions`;
+        const basePath = `src/exams/${selectedYear}/questions`;
         const totalQuestions = 180;
+
         const languageQuestionsRange = year >= 2017 ? { start: 1, end: 5 } : { start: 91, end: 95 };
-        const questionsToLoad = Array.from({ length: totalQuestions }, (_, i) => i + 1);
 
-        const loadedExams = await Promise.all(
-          questionsToLoad.map(async (i) => {
-            try {
-              const isLanguageQuestion = i >= languageQuestionsRange.start && i <= languageQuestionsRange.end;
-              let questionPath = `${basePath}/${i}`;
+        const loadedExams = [];
 
-              if (isLanguageQuestion && selectedLanguage) {
-                questionPath += `-${selectedLanguage}`;
-              }
+        for (let i = 1; i <= totalQuestions; i++) {
+          try {
+            const isLanguageQuestion = i >= languageQuestionsRange.start && i <= languageQuestionsRange.end;
+            let questionPath = `${basePath}/${i}`;
 
-              const response = await fetch(`/${questionPath}/details.json`);
-
-              if (!response.ok) throw new Error('Falha ao carregar questão');
-
-              const data = await response.json();
-
-              return { ...data, index: i } as IQuestion;
-            } catch (error) {
-              console.error(`Erro ao carregar questão ${i}:`, error);
-
-              return null;
+            if (isLanguageQuestion && selectedLanguage) {
+              questionPath += `-${selectedLanguage}`;
             }
-          })
-        );
 
-        setExams(loadedExams.filter(Boolean) as IQuestion[]);
+            const response = await fetch(`${questionPath}/details.json`);
+
+            const contentType = response.headers.get('content-type');
+
+            if (!contentType || !contentType.includes('application/json')) {
+              throw new Error('Resposta não é JSON');
+            }
+
+            const data = await response.json();
+            loadedExams.push({ ...data, index: i });
+          } catch (error) {
+            console.error(`Erro ao carregar questão ${i}:`, error);
+          }
+        }
+
+        setExams(loadedExams);
       } catch (error) {
         console.error('Error loading questions:', error);
       } finally {
