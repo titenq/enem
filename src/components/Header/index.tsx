@@ -20,8 +20,8 @@ const Header = () => {
       <Container fluid>
         <Navbar.Brand className={styles.brand} href='/'>
           <Image
-            width={150.5}
-            height={85.5}
+            width={70}
+            height={70}
             src={logo}
             fluid
             className={styles.logo_header}
@@ -42,7 +42,14 @@ const Header = () => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className='justify-content-end flex-grow-1 pe-3'>
-              <Nav.Link href='/login' className={styles.link}>ano</Nav.Link>
+              <Nav.Link
+                href='https://github.com/yunger7/enem-api'
+                className={styles.link_avatar}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                crédito das questões para yunger7
+              </Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>

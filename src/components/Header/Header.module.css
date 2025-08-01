@@ -15,9 +15,15 @@
 }
 
 .logo_header {
-  width: 150.5px;
-  height: 85.5px;
-  padding: 10px;
+  width: 70px;
+  height: 70px;
+}
+
+.link_avatar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--white);
 }
 
 .link {

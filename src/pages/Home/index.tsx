@@ -1,5 +1,5 @@
 import { useEffect, useState, ChangeEvent } from 'react';
-import { Container, Form, Spinner, Alert, Row, Image, Col } from 'react-bootstrap';
+import { Container, Form, Spinner, Row, Image, Col } from 'react-bootstrap';
 import styles from './Home.module.css';
 import { IQuestion } from '../../interfaces/questionInterface';
 import parseContext from '../../helpers/parseContext';
@@ -9,7 +9,6 @@ const Home = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
   const [exams, setExams] = useState<IQuestion[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!selectedYear) return;
@@ -25,7 +24,6 @@ const Home = () => {
     const loadAllQuestions = async () => {
       setLoading(true);
       setExams([]);
-      setError(null);
 
       try {
         const basePath = `../../exams/${selectedYear}/questions`;
@@ -52,14 +50,8 @@ const Home = () => {
           }
         }
 
-        if (loadedExams.length === 0) {
-          setError('Nenhuma questão encontrada para os filtros selecionados');
-        } else {
-          setExams(loadedExams);
-        }
+        setExams(loadedExams);
       } catch (error) {
-        setError('Erro ao carregar questões');
-
         console.error('Error loading questions:', error);
       } finally {
         setLoading(false);
@@ -121,60 +113,60 @@ const Home = () => {
       </Form>
 
       {loading && (
-        <div className="text-center mt-4">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Carregando...</span>
+        <div className='text-center mt-4'>
+          <Spinner animation='border' role='status'>
+            <span className='visually-hidden'>Carregando...</span>
           </Spinner>
           <p>Carregando questões...</p>
         </div>
       )}
 
-      {error && (
-        <Alert variant="danger" className="mt-3">
-          {error}
-        </Alert>
-      )}
-
       {exams.length > 0 && (
-        <div className="mt-4">
-          <h2>Questões do ENEM {selectedYear}</h2>
+        <div className='mt-4'>
+          <h2 className={styles.year}>Questões do ENEM {selectedYear}</h2>
+
           {selectedLanguage && (
             <p>Língua Estrangeira: {selectedLanguage === 'ingles' ? 'Inglês' : 'Espanhol'}</p>
           )}
 
           <div className={styles.questions_container}>
             {exams.map((exam) => (
-              <div key={exam.index} className={`${styles.question_card} ${exam?.canceled ? styles.canceled : ''}`}>
-                <h3>{exam.title}</h3>
+              <div
+                key={exam.index}
+                className={`${styles.question_card} ${exam?.canceled ? styles.canceled : ''}`}
+              >
+                <div className={styles.title}>{exam.title}</div>
 
-                {exam?.context && <div dangerouslySetInnerHTML={{ __html: parseContext(exam.context) }} />}
+                <div className='p-3'>
+                  {exam?.context && <div dangerouslySetInnerHTML={{ __html: parseContext(exam.context) }} />}
 
-                {exam.alternativesIntroduction && (
-                  <div className="mb-3 mt-3">
-                    <p>{exam.alternativesIntroduction}</p>
+                  {exam.alternativesIntroduction && (
+                    <div className='mb-3 mt-3'>
+                      <p>{exam.alternativesIntroduction}</p>
+                    </div>
+                  )}
+
+                  <div className='mb-3'>
+                    {exam.alternatives.map((alternative) => {
+                      if (alternative?.text) {
+                        return (
+                          <div key={alternative.letter} className={styles.alternative}>
+                            <div className={styles.alternative_letter}>{alternative.letter}</div> {alternative.text}
+                          </div>
+                        );
+                      }
+
+                      if (alternative?.file) {
+                        const src = alternative.file.replace('https://enem.dev', 'src/exams');
+
+                        return (
+                          <div key={alternative.letter}>
+                            <strong>{alternative.letter}</strong> - <Image src={src} fluid className='mb-3' />
+                          </div>
+                        );
+                      }
+                    })}
                   </div>
-                )}
-
-                <div className="mb-3">
-                  {exam.alternatives.map((alternative) => {
-                    if (alternative?.text) {
-                      return (
-                        <div key={alternative.letter} className={styles.alternative}>
-                          <div className={styles.alternative_letter}>{alternative.letter}</div> {alternative.text}
-                        </div>
-                      );
-                    }
-
-                    if (alternative?.file) {
-                      const src = alternative.file.replace('https://enem.dev', 'src/exams');
-
-                      return (
-                        <div key={alternative.letter}>
-                          <strong>{alternative.letter}</strong> - <Image src={src} fluid className="mb-3" />
-                        </div>
-                      );
-                    }
-                  })}
                 </div>
 
                 {exam?.canceled && <p className={styles.canceled_message}>Questão anulada</p>}
