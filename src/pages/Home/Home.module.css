@@ -24,6 +24,7 @@ img {
   width: 100%;
   border: 2px solid #ccc;
   border-radius: 10px;
+  position: relative;
 }
 
 .title {
@@ -44,6 +45,14 @@ img {
   align-items: center;
   gap: 10px;
   margin-bottom: 15px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.alternative:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .alternative_letter {
@@ -60,6 +69,28 @@ img {
   font-weight: bold;
   flex-shrink: 0;
   box-sizing: border-box;
+}
+
+.radio_input {
+  display: none;
+}
+
+.radio_check {
+  margin-bottom: 0;
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.alternative_label {
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.radio_input:checked + .alternative_label .alternative {
+  background-color: rgba(230, 81, 0, 0.1);
+  box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.5);
 }
 
 .canceled {
@@ -93,5 +124,10 @@ img {
 @media (max-width: 768px) {
   .container {
     padding: 30px 10px;
+  }
+  
+  .canceled_message {
+    font-size: 32px;
+    padding: 15px;
   }
 }
