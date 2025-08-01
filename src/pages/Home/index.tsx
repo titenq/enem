@@ -30,7 +30,7 @@ const Home = () => {
 
       try {
         const year = parseInt(selectedYear);
-        const basePath = `src/exams/${selectedYear}/questions`;
+        const basePath = '/exams';
         const totalQuestions = 180;
 
         const languageQuestionsRange = year >= 2017 ? { start: 1, end: 5 } : { start: 91, end: 95 };
@@ -40,24 +40,36 @@ const Home = () => {
         for (let i = 1; i <= totalQuestions; i++) {
           try {
             const isLanguageQuestion = i >= languageQuestionsRange.start && i <= languageQuestionsRange.end;
-            let questionPath = `${basePath}/${i}`;
+            let questionSegment = `${i}`;
 
             if (isLanguageQuestion && selectedLanguage) {
-              questionPath += `-${selectedLanguage}`;
+              questionSegment += `-${selectedLanguage}`;
             }
 
-            const response = await fetch(`${questionPath}/details.json`);
+            const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
 
-            const contentType = response.headers.get('content-type');
+            const response = await fetch(url);
 
-            if (!contentType || !contentType.includes('application/json')) {
-              throw new Error('Resposta não é JSON');
+            const contentType = response.headers.get('content-type') || '';
+
+            if (!response.ok || !contentType.includes('application/json')) {
+              const text = await response.text();
+
+              throw new Error(`Resposta inválida (${response.status}): ${text.slice(0, 100)}`);
             }
 
             const data = await response.json();
+
             loadedExams.push({ ...data, index: i });
           } catch (error) {
             console.error(`Erro ao carregar questão ${i}:`, error);
+            
+            loadedExams.push({
+              index: i,
+              title: `Questão ${i} (Erro ao carregar)`,
+              alternatives: [],
+              canceled: true
+            });
           }
         }
 
