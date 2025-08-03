@@ -1,8 +1,23 @@
-import { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { Container, Form, Spinner, Row, Image, Col, Button } from 'react-bootstrap';
+import {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
 
 import styles from './Home.module.css';
-import { IQuestion } from '../../interfaces/questionInterface';
+import { ILoadQuestionParams, IQuestion } from '../../interfaces/questionInterface';
 import parseContext from '../../helpers/parseContext';
 
 const Home = () => {
@@ -12,116 +27,152 @@ const Home = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: number]: string }>({});
   const [results, setResults] = useState<{ [key: number]: boolean }>({});
+  const [loadedCount, setLoadedCount] = useState<number>(0);
+  const [totalQuestions] = useState<number>(180);
 
-  useEffect(() => {
-    if (!selectedYear) return;
+  const loadQuestions = useCallback(async () => {
+    if (!selectedYear) {
+      return;
+    }
 
     const year = parseInt(selectedYear);
 
     if (year >= 2010 && year <= 2023 && !selectedLanguage) {
       setExams([]);
+
       return;
     }
 
-    const loadAllQuestions = async () => {
-      setLoading(true);
-      setExams([]);
-      setSelectedAnswers({});
+    setLoading(true);
+    setExams([]);
+    setSelectedAnswers({});
+    setLoadedCount(0);
 
-      try {
-        const year = parseInt(selectedYear);
-        const basePath = 'https://titenq-enem.vercel.app/exams';
-        const totalQuestions = 180;
+    try {
+      const basePath = 'https://titenq-enem.vercel.app/exams';
 
-        let languageQuestionsRange = null;
+      let languageQuestionsRange = null;
 
-        if (year >= 2017) {
-          languageQuestionsRange = { start: 1, end: 5 };
-        } else if (year >= 2010 && year <= 2016) {
-          languageQuestionsRange = { start: 91, end: 95 };
-        }
-
-        const loadedExams = [];
-
-        for (let i = 1; i <= totalQuestions; i++) {
-          try {
-            let isLanguageQuestion = false;
-
-            if (languageQuestionsRange) {
-              isLanguageQuestion = (i >= languageQuestionsRange.start && i <= languageQuestionsRange.end);
-            }
-
-            let questionSegment = `${i}`;
-            let useLanguagePath = false;
-
-            if (isLanguageQuestion && selectedLanguage) {
-              questionSegment += `-${selectedLanguage}`;
-              useLanguagePath = true;
-            }
-
-            const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
-
-            console.log({ url });
-            const response = await fetch(url);
-
-            if (!response.ok && useLanguagePath && year === 2010) {
-              const defaultUrl = `${basePath}/${selectedYear}/questions/${i}/details.json`;
-              const defaultResponse = await fetch(defaultUrl);
-
-              if (defaultResponse.ok) {
-                const data = await defaultResponse.json();
-
-                loadedExams.push({ ...data, index: i });
-
-                continue;
-              }
-            }
-
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const contentType = response.headers.get('content-type') || '';
-            if (!contentType.includes('application/json')) {
-              const text = await response.text();
-
-              console.warn("Resposta não é JSON:", text.substring(0, 100));
-
-              throw new Error('Resposta não é JSON');
-            }
-
-            const data = await response.json();
-
-            loadedExams.push({ ...data, index: i });
-          } catch (error) {
-            console.error(`Erro ao carregar questão ${i}:`, error);
-            
-            loadedExams.push({
-              index: i,
-              title: `Questão ${i}`,
-              context: "Erro ao carregar esta questão",
-              alternatives: [],
-              canceled: true,
-              year: parseInt(selectedYear)
-            });
-          }
-        }
-
-        setExams(loadedExams);
-      } catch (error) {
-        console.error('Error geral no carregamento:', error);
-      } finally {
-        setLoading(false);
+      if (year >= 2017) {
+        languageQuestionsRange = { start: 1, end: 5 };
+      } else if (year >= 2010 && year <= 2016) {
+        languageQuestionsRange = { start: 91, end: 95 };
       }
-    };
 
-    loadAllQuestions();
-  }, [selectedYear, selectedLanguage]);
+      const loadedExams: IQuestion[] = [];
+      const batchSize = 10;
+      let currentIndex = 1;
+
+      while (currentIndex <= totalQuestions) {
+        const batchEnd = Math.min(currentIndex + batchSize - 1, totalQuestions);
+        const batchPromises = [];
+
+        for (let i = currentIndex; i <= batchEnd; i++) {
+          batchPromises.push(loadQuestion({
+            questionNumber: i,
+            year,
+            basePath,
+            languageQuestionsRange
+          }));
+        }
+
+        const batchResults = await Promise.all(batchPromises);
+        const validResults = batchResults.filter(q => q !== null) as IQuestion[];
+
+        loadedExams.push(...validResults);
+
+        setExams(prev => [...prev, ...validResults]);
+        setLoadedCount(currentIndex + batchSize - 1);
+
+        currentIndex += batchSize;
+      }
+    } catch (error) {
+      console.error('Error loading questions:', error);
+    } finally {
+      setLoading(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedYear, selectedLanguage, totalQuestions]);
+
+  const loadQuestion = async (params: ILoadQuestionParams): Promise<IQuestion | null> => {
+    const { questionNumber, year, basePath, languageQuestionsRange } = params;
+
+    try {
+      let isLanguageQuestion = false;
+
+      if (languageQuestionsRange) {
+        isLanguageQuestion = (
+          questionNumber >= languageQuestionsRange.start &&
+          questionNumber <= languageQuestionsRange.end
+        );
+      }
+
+      let questionSegment = `${questionNumber}`;
+      let useLanguagePath = false;
+
+      if (isLanguageQuestion && selectedLanguage) {
+        questionSegment += `-${selectedLanguage}`;
+        useLanguagePath = true;
+      }
+
+      const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
+      const response = await fetch(url);
+
+      if (!response.ok && useLanguagePath && year === 2010) {
+        const defaultUrl = `${basePath}/${selectedYear}/questions/${questionNumber}/details.json`;
+        const defaultResponse = await fetch(defaultUrl);
+
+        if (defaultResponse.ok) {
+          const data = await defaultResponse.json();
+
+          return { ...data, index: questionNumber };
+        }
+      }
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+
+      if (!contentType.includes('application/json')) {
+        const text = await response.text();
+
+        console.warn("Resposta não é JSON:", text.substring(0, 100));
+
+        throw new Error('Resposta não é JSON');
+      }
+
+      const data = await response.json();
+
+      return { ...data, index: questionNumber };
+    } catch (error) {
+      console.error(`Erro ao carregar questão ${questionNumber}:`, error);
+
+      return ({
+        index: questionNumber,
+        title: `Questão ${questionNumber}`,
+        context: "Erro ao carregar esta questão",
+        alternatives: [],
+        canceled: true,
+        year: year,
+        discipline: "",
+        correctAlternative: ""
+      });
+    }
+  };
+
+  useEffect(() => {
+    loadQuestions();
+  }, [loadQuestions]);
 
   const handleSelectYear = (e: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedYear('');
     setSelectedLanguage(null);
     setExams([]);
     setSelectedAnswers({});
+    setResults({});
+    setLoadedCount(0);
     setSelectedYear(e.target.value);
   };
 
@@ -203,13 +254,13 @@ const Home = () => {
         </Row>
       </Form>
 
-      {loading && (
+      {loading && loadedCount < 10 && (
         <div className='text-center mt-4'>
           <Spinner animation='border' role='status'>
             <span className='visually-hidden'>Carregando...</span>
           </Spinner>
 
-          <p>Carregando questões...</p>
+          <p>Carregando questões... {loadedCount} de {totalQuestions}</p>
         </div>
       )}
 
@@ -263,7 +314,7 @@ const Home = () => {
                             name={`question-${exam.index}`}
                             className={styles.radio_input}
                             checked={isSelected}
-                            onChange={() => {}}
+                            onChange={() => { }}
                             disabled={exam?.canceled}
                           />
                           <div className={`
@@ -300,8 +351,15 @@ const Home = () => {
               </div>
             )}
 
-            <div className='mt-4'>
-              <Button type='submit' size='lg' className={styles.button_submit}>Enviar Respostas</Button>
+            <div className='mt-4 text-center'>
+              <Button
+                type='submit'
+                size='lg'
+                className={styles.button_submit}
+                disabled={loading}
+              >
+                Enviar Respostas
+              </Button>
             </div>
           </Form>
         </div>

@@ -18,3 +18,10 @@ export interface IQuestion {
   alternatives: IAlternative[];
   canceled?: boolean;
 }
+
+export interface ILoadQuestionParams {
+  questionNumber: number;
+  year: number;
+  basePath: string;
+  languageQuestionsRange: { start: number; end: number } | null;
+}
