@@ -37,7 +37,7 @@ const Home = () => {
 
     const year = parseInt(selectedYear);
 
-    if (year >= 2010 && year <= 2023 && !selectedLanguage) {
+    if (year >= 2010 && year <= 2024 && !selectedLanguage) {
       setExams([]);
 
       return;
@@ -49,7 +49,8 @@ const Home = () => {
     setLoadedCount(0);
 
     try {
-      const basePath = 'https://titenq-enem.vercel.app/exams';
+      // const basePath = 'https://titenq-enem.vercel.app/exams';
+      const basePath = 'http://localhost:5173/exams';
 
       let languageQuestionsRange = null;
 
@@ -108,26 +109,13 @@ const Home = () => {
       }
 
       let questionSegment = `${questionNumber}`;
-      let useLanguagePath = false;
 
       if (isLanguageQuestion && selectedLanguage) {
         questionSegment += `-${selectedLanguage}`;
-        useLanguagePath = true;
       }
 
       const url = `${basePath}/${selectedYear}/questions/${questionSegment}/details.json`;
       const response = await fetch(url);
-
-      if (!response.ok && useLanguagePath && year === 2010) {
-        const defaultUrl = `${basePath}/${selectedYear}/questions/${questionNumber}/details.json`;
-        const defaultResponse = await fetch(defaultUrl);
-
-        if (defaultResponse.ok) {
-          const data = await defaultResponse.json();
-
-          return { ...data, index: questionNumber };
-        }
-      }
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -228,7 +216,7 @@ const Home = () => {
               value={selectedYear}
             >
               <option value=''>Selecione o ano</option>
-              {Array.from({ length: 15 }, (_, i) => 2009 + i).map(year => (
+              {Array.from({ length: 16 }, (_, i) => 2009 + i).map(year => (
                 <option key={year} value={year.toString()}>{year}</option>
               ))}
             </Form.Select>

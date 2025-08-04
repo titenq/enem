@@ -1,0 +1,45 @@
+{
+    "title": "Questão 34 - ENEM 2023",
+    "index": 34,
+    "year": 2023,
+    "language": null,
+    "discipline": "linguagens",
+    "context": "**Texto I**\n\nLogo no início de Gira, um grupo de sete bailarinas ocupa o centro da cena. Mãos cruzadas sobre a lateral esquerda do quadril, olhos fechados, troncos que pendulam sobre si mesmos em vaguíssimas órbitas, tudo nelas sugere o transe. Está estabelecido o caráter volátil do que se passará no palco dali para frente. Mas engana-se quem pensa que vai assistir a uma representação mimética dos cultos afro-brasileiros.\n\n**Texto II**\n\n![](https://enem.dev/2023/questions/34/d3f9dfc2-3337-498f-8dcd-67a7f5909bbb.png)\n\n",
+    "files": [
+        "https://enem.dev/2023/questions/34/d3f9dfc2-3337-498f-8dcd-67a7f5909bbb.png"
+    ],
+    "correctAlternative": "A",
+    "alternativesIntroduction": "No diálogo que estabelece com religiões afro-brasileiras, sintetizado na descrição e na imagem do espetáculo, a dança exprime uma",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "crítica aos movimentos padronizados do balé clássico.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "representação contemporânea de rituais ancestrais extintos.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "reelaboração estética erudita de práticas religiosas populares.",
+            "file": null,
+            "isCorrect": true
+        },
+        {
+            "letter": "D",
+            "text": "releitura irônica da atmosfera mística presente no culto a entidades.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "oposição entre o resgate de tradições e a efemeridade da vida humana.",
+            "file": null,
+            "isCorrect": false
+        }
+    ]
+}

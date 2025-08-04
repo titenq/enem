@@ -1,0 +1,46 @@
+{
+    "title": "Questão 1 - ENEM 2024",
+    "index": 1,
+    "year": 2024,
+    "language": "ingles",
+    "discipline": "linguagens",
+    "context": "![](https://enem.dev/2024/questions/1-ingles/59a5b837-9914-48b0-a1b4-959562038c9a.png)\n\n![](https://enem.dev/2024/questions/1-ingles/59a5b837-9914-48b0-a1b4-959562038c9b.png)",
+    "files": [
+        "https://enem.dev/2024/questions/1-ingles/59a5b837-9914-48b0-a1b4-959562038c9a.png",
+        "https://enem.dev/2024/questions/1-ingles/59a5b837-9914-48b0-a1b4-959562038c9b.png"
+    ],
+    "correctAlternative": "C",
+    "alternativesIntroduction": "A relação entre as citações atribuídas ao físico Albert Einstein e ao cantor e compositor Bob Marley reside na crença de que é necessário",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "dar oportunidade a pessoas que parecem necessitadas.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "identificar contextos que podem representar perigo.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "tirar proveito de situações que podem ser adversas.",
+            "file": null,
+            "isCorrect": true
+        },
+        {
+            "letter": "D",
+            "text": "evitar dificuldades que parecem ser intransponíveis.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "contestar circunstâncias que parecem ser harmônicas.",
+            "file": null,
+            "isCorrect": false
+        }
+    ]
+}

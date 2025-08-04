@@ -1,0 +1,43 @@
+{
+    "title": "Questão 1 - ENEM 2024",
+    "index": 1,
+    "year": 2024,
+    "language": "espanhol",
+    "discipline": "linguagens",
+    "context": "El vírus de la cancelación\n\n¿De qué se trata este fenómeno? Se entiende por cultura de la cancelación a una práctica popular que consiste en “quitarle apoyo” especialmente a figuras públicas y compañías multinacionales después de que hayan hecho o dicho algo considerado objetable u ofensivo. Cuando alguien o algo está cancelado se descarta, se deja de ver, se deja de escuchar, se desclasifica, se aísla, se abandona, se niega, se deja de consumir hasta que eventualmente puede o no desaparecer. Es una estrategia muy extendida en la historia de las luchas anticoloniales, antiespecistas, sexodisidentes, feministas y, especialmente en nuestro país, también llevadas adelante por el movimiento de derechos humanos. Entonces, ¿dónde radica el problema? Se puede observar positivamente que hay un proceso cada vez más agudo de socialización de herramientas críticas para desmantelar formas de desigualdad incrustadas en los lazos sociales. Pero la popularización irrestricta y el uso amplificado de esta herramienta por fuera de sus contextos colectivos de emergencia han despertado efectos adversos en una sociedad atravesada por las pantallas como formas de encierro-consumo, la representación online como única esfera pública y un imperativo felicista cuya moral nos obliga a trabajar ansiosamente por una vida sin desacuerdos, sin errores y sin dolor, a como dé lugar.\n\nDisponível em: www.revistaanfibia.com. Acesso em: 7 out. 2021 (adaptado).",
+    "files": [],
+    "correctAlternative": "C",
+    "alternativesIntroduction": "Na argumentação apresentada sobre cultura do cancelamento, esse texto objetiva",
+    "alternatives": [
+        {
+            "letter": "A",
+            "text": "apresentar o conceito desse tipo de prática.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "B",
+            "text": "mostrar a contrariedade das mídias com relação a essa atitude.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "C",
+            "text": "criticar o impacto dessa cultura sobre a vida representada nas redes.",
+            "file": null,
+            "isCorrect": true
+        },
+        {
+            "letter": "D",
+            "text": "evidenciar a democratização dessa prática na sociedade virtual.",
+            "file": null,
+            "isCorrect": false
+        },
+        {
+            "letter": "E",
+            "text": "discorrer historicamente sobre a origem e as causas dessa cultura.",
+            "file": null,
+            "isCorrect": false
+        }
+    ]
+}
