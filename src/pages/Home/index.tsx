@@ -37,7 +37,7 @@ const Home = () => {
 
     const year = parseInt(selectedYear);
 
-    if (year >= 2010 && year <= 2024 && !selectedLanguage) {
+    if (year >= 2010 && year <= 2023 && !selectedLanguage) {
       setExams([]);
 
       return;
@@ -49,8 +49,8 @@ const Home = () => {
     setLoadedCount(0);
 
     try {
-      // const basePath = 'https://titenq-enem.vercel.app/exams';
-      const basePath = 'http://localhost:5173/exams';
+      const basePath = 'https://titenq-enem.vercel.app/exams';
+      // const basePath = 'http://localhost:5173/exams';
 
       let languageQuestionsRange = null;
 
