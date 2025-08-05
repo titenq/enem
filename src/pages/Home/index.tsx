@@ -216,7 +216,7 @@ const Home = () => {
               value={selectedYear}
             >
               <option value=''>Selecione o ano</option>
-              {Array.from({ length: 16 }, (_, i) => 2009 + i).map(year => (
+              {Array.from({ length: 15 }, (_, i) => 2009 + i).map(year => (
                 <option key={year} value={year.toString()}>{year}</option>
               ))}
             </Form.Select>
